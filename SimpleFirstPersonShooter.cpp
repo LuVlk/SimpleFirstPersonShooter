@@ -1,9 +1,10 @@
 #include <iostream>
 #include <chrono>
+#include <Windows.h>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
-
-#include <Windows.h>
 
 int nScreenWidth = 120;
 int nScreenHeight = 40;
@@ -35,10 +36,10 @@ int main()
 	map += L"#..........#...#";
 	map += L"#..........#...#";
 	map += L"#..............#";
-	map += L"#..............#";
-	map += L"#..............#";
-	map += L"#..............#";
-	map += L"#..............#";
+	map += L"#######........#";
+	map += L"#.....#........#";
+	map += L"#.....#........#";
+	map += L"#.....#........#";
 	map += L"#..............#";
 	map += L"#..............#";
 	map += L"#..............#";
@@ -124,6 +125,7 @@ int main()
 
 			float fDistanceToWall = 0.0f;
 			bool bHitWall = false;
+			bool bBoundary = false;
 
 			float fEyeX = sinf(fRayAngle); // Unit vecotr for ray in player space
 			float fEyeY = cosf(fRayAngle);
@@ -147,6 +149,25 @@ int main()
 					if (map[nTestY * nMapWidth + nTestX] == '#')
 					{
 						bHitWall = true;
+
+						vector<pair<float, float>> p; // distance, dot
+
+						for (int tx = 0; tx < 2; tx++)
+							for (int ty = 0; ty < 2; ty++)
+							{
+								float vy = (float)nTestY + ty - fPlayerY;
+								float vx = (float)nTestX + tx - fPlayerX;
+								float d = sqrt(vx * vx + vy * vy);
+								float dot = (fEyeX * vx / d) + (fEyeY * vy / d);
+								p.push_back(make_pair(d, dot));
+							}
+
+						// Sort pairs from clostest to furthest
+						sort(p.begin(), p.end(), [](const pair<float, float>& left, const pair<float, float>& right) { return left.first < right.first; });
+					
+						float fBound = 0.005;
+						if (acos(p.at(0).second) < fBound) bBoundary = true;
+						if (acos(p.at(1).second) < fBound) bBoundary = true;
 					}
 				}
 			}
@@ -155,7 +176,7 @@ int main()
 			int nCeiling = (float)(nScreenHeight / 2.0) - nScreenHeight / ((float)fDistanceToWall);
 			int nFloor = nScreenHeight - nCeiling;
 
-
+			
 			// Shade depending on distance
 			short nShade = ' ';
 
@@ -176,6 +197,7 @@ int main()
 					else if (fDistanceToWall < fDepth / 1.0f)	nShade = 0x2591;
 					else										nShade = ' ';		// Too far away
 
+					if (bBoundary)	nShade = ' '; // Black it out
 					screen[y * nScreenWidth + x] = nShade;
 				}
 				else
