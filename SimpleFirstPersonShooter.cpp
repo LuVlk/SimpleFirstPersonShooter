@@ -94,15 +94,27 @@ int main()
 		// Handle Left
 		if (GetAsyncKeyState((unsigned short)'A') & 0x8000)
 		{
-			fPlayerX += sinf(fPlayerA) * 5.0f * fElapsedTime;
-			fPlayerY -= cosf(fPlayerA) * 5.0f * fElapsedTime;
+			fPlayerX += sinf(fPlayerA - 3.14159 / 2.0) * 2.5f * fElapsedTime;
+			fPlayerY += cosf(fPlayerA - 3.14159 / 2.0) * 2.5f * fElapsedTime;
+
+			if (map[(int)fPlayerY * nMapWidth + (int)fPlayerX] == '#')
+			{
+				fPlayerX -= sinf(fPlayerA - 3.14159 / 2.0) * 2.5f * fElapsedTime;
+				fPlayerY -= cosf(fPlayerA - 3.14159 / 2.0) * 2.5f * fElapsedTime;
+			}
 		}
 
 		// Handle Right
 		if (GetAsyncKeyState((unsigned short)'D') & 0x8000)
 		{
-			fPlayerX -= sinf(fPlayerA) * 5.0f * fElapsedTime;
-			fPlayerY += cosf(fPlayerA) * 5.0f * fElapsedTime;
+			fPlayerX += sinf(fPlayerA + 3.14159 / 2.0) * 2.5f * fElapsedTime;
+			fPlayerY += cosf(fPlayerA + 3.14159 / 2.0) * 2.5f * fElapsedTime;
+
+			if (map[(int)fPlayerY * nMapWidth + (int)fPlayerX] == '#')
+			{
+				fPlayerX -= sinf(fPlayerA + 3.14159 / 2.0) * 2.5f * fElapsedTime;
+				fPlayerY -= cosf(fPlayerA + 3.14159 / 2.0) * 2.5f * fElapsedTime;
+			}
 		}
 
 		for (int x = 0; x < nScreenWidth; x++)
