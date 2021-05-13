@@ -31,15 +31,15 @@ int main()
 
 	map += L"################";
 	map += L"#..............#";
+	map += L"#.......########";
+	map += L"#..............#";
+	map += L"#.........##...#";
+	map += L"#.........##...#";
 	map += L"#..............#";
 	map += L"#..............#";
-	map += L"#..........#...#";
-	map += L"#..........#...#";
 	map += L"#..............#";
-	map += L"#######........#";
-	map += L"#.....#........#";
-	map += L"#.....#........#";
-	map += L"#.....#........#";
+	map += L"#..............#";
+	map += L"#..............#";
 	map += L"#..............#";
 	map += L"#..............#";
 	map += L"#..............#";
@@ -165,7 +165,7 @@ int main()
 						// Sort pairs from clostest to furthest
 						sort(p.begin(), p.end(), [](const pair<float, float>& left, const pair<float, float>& right) { return left.first < right.first; });
 					
-						float fBound = 0.005;
+						float fBound = 0.0025;
 						if (acos(p.at(0).second) < fBound) bBoundary = true;
 						if (acos(p.at(1).second) < fBound) bBoundary = true;
 					}
@@ -215,7 +215,16 @@ int main()
 			}
 		}
 
-
+		// Display Stats
+		swprintf_s(screen, 40, L"X=%3.2f, Y=%3.2f, A=%3.2f, FPS=%3.2f", fPlayerX, fPlayerY, fPlayerA, 1.0f / fElapsedTime);
+		
+		// Display Map
+		for (int nx = 0; nx < nMapWidth; nx++)
+			for (int ny = 0; ny < nMapHeight; ny++)
+			{
+				screen[(ny + 1) * nScreenWidth + nx]						= map[ny * nMapWidth + nx];
+				screen[((int)fPlayerY + 1) * nScreenWidth + (int)fPlayerX]	= 'P';
+			}
 
 		// Write to the console
 		screen[nScreenWidth * nScreenHeight - 1] = '\0';
