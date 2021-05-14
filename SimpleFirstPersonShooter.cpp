@@ -10,12 +10,12 @@ class UltimateFPS : public olcConsoleGameEngine
 private:
 	float fPlayerX = 2.0f;
 	float fPlayerY = 30.0f;
-	float fPlayerA = 3.14159;
+	float fPlayerA = PI;
 
 	int nMapHeight = 32;
 	int nMapWidth = 32;
 
-	float fFieldOfView = 3.14159 / 4.0;
+	float fFieldOfView = PI / 4.0;
 	float fDepth = 16.0f;
 
 	wstring map;
@@ -108,26 +108,26 @@ public:
 		// Handle Left
 		if (m_keys[L'A'].bHeld)
 		{
-			fPlayerX += sinf(fPlayerA - 3.14159 / 2.0) * 2.5f * fElapsedTime;
-			fPlayerY += cosf(fPlayerA - 3.14159 / 2.0) * 2.5f * fElapsedTime;
+			fPlayerX += sinf(fPlayerA - PI / 2.0) * 2.5f * fElapsedTime;
+			fPlayerY += cosf(fPlayerA - PI / 2.0) * 2.5f * fElapsedTime;
 
 			if (map[(int)fPlayerY * nMapWidth + (int)fPlayerX] == '#')
 			{
-				fPlayerX -= sinf(fPlayerA - 3.14159 / 2.0) * 2.5f * fElapsedTime;
-				fPlayerY -= cosf(fPlayerA - 3.14159 / 2.0) * 2.5f * fElapsedTime;
+				fPlayerX -= sinf(fPlayerA - PI / 2.0) * 2.5f * fElapsedTime;
+				fPlayerY -= cosf(fPlayerA - PI / 2.0) * 2.5f * fElapsedTime;
 			}
 		}
 
 		// Handle Right
 		if (m_keys[L'D'].bHeld)
 		{
-			fPlayerX += sinf(fPlayerA + 3.14159 / 2.0) * 2.5f * fElapsedTime;
-			fPlayerY += cosf(fPlayerA + 3.14159 / 2.0) * 2.5f * fElapsedTime;
+			fPlayerX += sinf(fPlayerA + PI / 2.0) * 2.5f * fElapsedTime;
+			fPlayerY += cosf(fPlayerA + PI / 2.0) * 2.5f * fElapsedTime;
 
 			if (map[(int)fPlayerY * nMapWidth + (int)fPlayerX] == '#')
 			{
-				fPlayerX -= sinf(fPlayerA + 3.14159 / 2.0) * 2.5f * fElapsedTime;
-				fPlayerY -= cosf(fPlayerA + 3.14159 / 2.0) * 2.5f * fElapsedTime;
+				fPlayerX -= sinf(fPlayerA + PI / 2.0) * 2.5f * fElapsedTime;
+				fPlayerY -= cosf(fPlayerA + PI / 2.0) * 2.5f * fElapsedTime;
 			}
 		}
 
